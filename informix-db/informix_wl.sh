@@ -168,20 +168,21 @@ then
 else
 
 	# Starting all listener types
-	# java -jar "${INFORMIXDIR}"/bin/jsonListener.jar  \
-	# 	-config $REST_PROP \
-	# 	-config $MONGO_PROP \
-	# 	-config $MQTT_PROP \
-	# 	-logFile $WL_LOG \
-	# 	-loglevel info \
-	# 	-start &
-
- 
 	java -jar "${INFORMIXDIR}"/bin/jsonListener.jar  \
 		-config $REST_PROP \
+		-config $MONGO_PROP \
+		-config $MQTT_PROP \
 		-logFile $WL_LOG \
 		-loglevel info \
 		-start &
+
+ 
+	# Starting Just REST 
+	# java -jar "${INFORMIXDIR}"/bin/jsonListener.jar  \
+	# 	-config $REST_PROP \
+	# 	-logFile $WL_LOG \
+	# 	-loglevel info \
+	# 	-start &
 
  
 fi
