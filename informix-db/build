@@ -8,7 +8,6 @@ docker rm temp-ifx-prune
 
 
 
-
 [ $1 ] && TAG=$1 || TAG='informix-db'
 docker build -f Dockerfile.base -t $TAG .
 

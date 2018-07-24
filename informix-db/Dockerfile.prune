@@ -10,14 +10,12 @@ RUN mkdir -p /opt/hcl/data
 ADD iif.tar /opt/hcl/informix
 
 ADD informix_install.sh /opt/hcl/
-ADD informix_create.sh /opt/hcl/
 ADD informix_prune.sh  /opt/hcl/
 ADD informix_inf.env   /opt/hcl/
 ADD dinit.c            /opt/hcl/
 
 
 ADD informix_install.properties /opt/hcl/informix_install.properties
-
 
 RUN cc /opt/hcl/dinit.c -o /opt/hcl/dinit
 RUN /bin/bash /opt/hcl/informix_install.sh
