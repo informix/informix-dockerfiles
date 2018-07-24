@@ -22,4 +22,3 @@ RUN /bin/bash /opt/hcl/informix_install.sh
 #RUN /bin/bash /opt/hcl/informix_prune.sh
 RUN /bin/tar -C /opt/hcl -cvf /tmp/informix.prune.tar informix
 
-
