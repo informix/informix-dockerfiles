@@ -1,0 +1,27 @@
+FROM debian-os 
+
+RUN apt-get install -y gcc
+
+RUN mkdir -p /opt/hcl
+RUN mkdir -p /opt/hcl/informix
+RUN mkdir -p /opt/hcl/scripts
+RUN mkdir -p /opt/hcl/data
+
+ADD iif.12.10.tar /opt/hcl/informix
+
+ADD informix_install.sh /opt/hcl/
+ADD informix_create.sh /opt/hcl/
+ADD informix_prune.sh  /opt/hcl/
+ADD informix_inf.env   /opt/hcl/
+ADD dinit.c            /opt/hcl/
+
+
+ADD informix_install.properties /opt/hcl/informix_install.properties
+
+
+RUN cc /opt/hcl/dinit.c -o /opt/hcl/dinit
+RUN /bin/bash /opt/hcl/informix_install.sh
+RUN /bin/bash /opt/hcl/informix_prune.sh
+RUN /bin/tar -C /opt/hcl -cvf /tmp/informix.prune.tar informix
+
+

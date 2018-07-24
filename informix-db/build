@@ -1,0 +1,15 @@
+docker build -f Dockerfile.debian-os -t debian-os . 
+docker build -f Dockerfile.prune -t ifx-prune .
+
+docker run --name temp-ifx-prune ifx-prune /bin/true
+docker cp temp-ifx-prune:/tmp/informix.prune.tar .
+docker cp temp-ifx-prune:/opt/hcl/dinit .
+docker rm temp-ifx-prune
+
+
+
+
+[ $1 ] && TAG=$1 || TAG='informix-db'
+docker build -f Dockerfile.base -t $TAG .
+
+
