@@ -11,7 +11,7 @@ cp <informix product> iif.tar
 
 2 - Run the Build phase
 ```
-./build
+. ./build
 ```
 
 * This will build a ```debian-os``` image as a base os image.
