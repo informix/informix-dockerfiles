@@ -41,10 +41,8 @@ HEALTHCHECK --interval=10s --timeout=5s --retries=1 --start-period=60s CMD /opt/
 USER informix
 
 STOPSIGNAL SIGTERM
-EXPOSE 27018
+EXPOSE 9088 9089 27017 27018 27883
 
-#ENTRYPOINT ["/bin/bash", "/opt/hcl/scripts/informix_entry.sh"]
-#ENTRYPOINT ["/opt/hcl/scripts/informix_entry.sh"]
 ENTRYPOINT ["/opt/hcl/dinit", "/opt/hcl/scripts/informix_entry.sh", "/opt/hcl/scripts/informix_stop.sh"]
 CMD [""]
 

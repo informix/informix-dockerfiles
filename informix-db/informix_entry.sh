@@ -20,11 +20,11 @@ MSGLOG ">>>    Starting container/image ($dt) ..." N
 ###
 ###  Check LICENSE 
 ###
-if (! isLicenseAccepted)  
-then
-   MSGLOG ">>>    License was not accepted Exiting! ..." N
-   exit
-fi
+# if (! isLicenseAccepted)  
+# then
+#    MSGLOG ">>>    License was not accepted Exiting! ..." N
+#    exit
+# fi
 
 
 
