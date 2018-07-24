@@ -175,7 +175,8 @@ else
 		-logFile $WL_LOG \
 		-loglevel info \
 		-start &
- 
+
+
 	# Starting Just REST 
 	# java -jar "${INFORMIXDIR}"/bin/jsonListener.jar  \
 	# 	-config $REST_PROP \
