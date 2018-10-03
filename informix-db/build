@@ -1,13 +1,27 @@
-docker build -f Dockerfile.debian-os -t debian-os . 
-docker build -f Dockerfile.prune -t ifx-prune .
+#!/bin/bash
+TAG="informix-developer-edition"
+OSTAG="ifx-os"
 
-docker run --name temp-ifx-prune ifx-prune /bin/true
+SCRIPTSRC=`readlink -f "$0" || echo "$0"`
+RUN_PATH=`dirname ${SCRIPTSRC} || echo .`
+cd $RUN_PATH
+cp CUSTOM/* . 
+
+cnt=`docker images|grep ifx-os|wc -l`
+if [[ $cnt == "0" ]]
+then
+echo "Building debian-os (ifx-os)"
+docker build -f Dockerfile.debian -t $OSTAG .
+
+fi
+
+
+docker build -f Dockerfile.prune -t $TAG-prune .
+
+docker run --name temp-ifx-prune $TAG-prune /bin/true
 docker cp temp-ifx-prune:/tmp/informix.prune.tar .
 docker cp temp-ifx-prune:/opt/hcl/dinit .
 docker rm temp-ifx-prune
 
 
-
-[ $1 ] && TAG=$1 || TAG='informix-db'
 docker build -f Dockerfile.base -t $TAG .
-

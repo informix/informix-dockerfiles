@@ -7,7 +7,7 @@ RUN groupadd informix -g 200
 RUN useradd -m -g informix -u 200 informix  -s /bin/bash
 
 
-RUN apt-get -y install net-tools
+RUN apt-get -y install net-tools 
 RUN apt-get -y install libaio1 bc libncurses5 ncurses-bin libpam0g 
 RUN apt-get -y install libncurses5-dev libelf1
 RUN apt-get -y install openssh-server

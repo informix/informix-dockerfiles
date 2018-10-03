@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <signal.h>
-#include <unistd.h>
+#include<unistd.h>
 
 
 char *garg1;
@@ -14,7 +14,7 @@ void sig_handler (int signo)
       system(garg2);
    }
 
-//printf("Received signal %d\n",signo);
+printf("Received signal %d\n",signo);
 }
 
 
@@ -31,12 +31,20 @@ if (signal(SIGINT, sig_handler) == SIG_ERR)
    printf("Can't catch SIGINT\n");
 if (signal(SIGTERM, sig_handler) == SIG_ERR)
    printf("Can't catch SIGTERM\n");
+if (signal(SIGKILL, sig_handler) == SIG_ERR)
+   printf("Can't catch SIGKILL\n");
 
 system(garg1);
+
 while (1)
 {
    sleep(10);
 }
+
+
+//pause();
+
+
 return 0;
 
 }

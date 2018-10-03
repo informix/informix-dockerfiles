@@ -1,38 +1,51 @@
-FROM debian-os as base
+FROM ifx-os as base
 
-RUN mkdir -p /opt/hcl 		                               && \
+RUN mkdir -p /opt/hcl                                      && \
     mkdir -p /opt/hcl/informix                             && \
     mkdir -p /opt/hcl/scripts                              && \
     mkdir -p /opt/hcl/sql                                  && \
     mkdir -p /opt/hcl/data                                 && \
+    mkdir -p /opt/hcl/config                               && \
     chown -R informix:informix        /opt/hcl
 
 
 
-ADD    informix_inf.env                  /opt/hcl/scripts     
-ADD    informix_status.sh                /opt/hcl/scripts     
+ADD    informix_calculate_onconfig.sh    /opt/hcl/scripts   
 ADD    informix_entry.sh                 /opt/hcl/scripts     
-ADD    informix_stop.sh                  /opt/hcl/scripts     
-ADD    informix_setup_datadir.sh         /opt/hcl/scripts     
-ADD    informix_setup_sqlhosts.sh        /opt/hcl/scripts   
-ADD    informix_update_hostname.sh       /opt/hcl/scripts   
-ADD    informix_setup_onconfig.sh        /opt/hcl/scripts  
-ADD    informix_setup_user_onconfig.sh   /opt/hcl/scripts    
-ADD    informix_setup_msgpath.sh         /opt/hcl/scripts    
-ADD    informix_setup_rootdbs.sh         /opt/hcl/scripts   
+ADD    informix_inf.env                  /opt/hcl/scripts     
 ADD    informix_init.sh                  /opt/hcl/scripts  
 ADD    informix_online.sh                /opt/hcl/scripts  
+
+ADD    informix_setup_datadir.sh         /opt/hcl/scripts     
 ADD    informix_setup_iot_db.sh          /opt/hcl/scripts    
-ADD    informix_setup_user_db.sh         /opt/hcl/scripts    
-ADD    informix_wl.sh                    /opt/hcl/scripts   
 ADD    informix_setup_links.sh           /opt/hcl/scripts   
+ADD    informix_setup_msgpath.sh         /opt/hcl/scripts    
+ADD    informix_setup_onconfig.sh        /opt/hcl/scripts  
+ADD    informix_setup_rootdbs.sh         /opt/hcl/scripts   
+ADD    informix_setup_sqlhosts.sh        /opt/hcl/scripts   
+ADD    informix_setup_user_db.sh         /opt/hcl/scripts    
+
+ADD    informix_status.sh                /opt/hcl/scripts     
+ADD    informix_stop.sh                  /opt/hcl/scripts     
+ADD    informix_update_hostname.sh       /opt/hcl/scripts   
+ADD    informix_update_onconfig.sh       /opt/hcl/scripts  
+ADD    informix_wl.sh                    /opt/hcl/scripts   
+
+ADD    informix_config.small             /opt/hcl/scripts   
+ADD    informix_config.medium            /opt/hcl/scripts   
+ADD    informix_config.large             /opt/hcl/scripts   
 
 
-ADD    informix_iot_db.sql		         /opt/hcl/sql
 ADD    informix_extend_root.sql	         /opt/hcl/sql
+ADD    informix_iot_db.sql		         /opt/hcl/sql
 ADD    informix_sbspace.sql              /opt/hcl/sql
+
 ADD    informix.prune.tar                /opt/hcl
 ADD    dinit                             /opt/hcl
+
+ADD    sch_init_informix.small.sql              /opt/hcl/sql
+ADD    sch_init_informix.medium.sql             /opt/hcl/sql
+ADD    sch_init_informix.large.sql              /opt/hcl/sql
 
 VOLUME     ["/opt/hcl/data"]
 
@@ -41,8 +54,9 @@ HEALTHCHECK --interval=10s --timeout=5s --retries=1 --start-period=60s CMD /opt/
 USER informix
 
 STOPSIGNAL SIGTERM
-EXPOSE 9088 9089 27017 27018 27883
+EXPOSE 27018
 
+#ENTRYPOINT ["/opt/hcl/scripts/informix_entry.sh"]
 ENTRYPOINT ["/opt/hcl/dinit", "/opt/hcl/scripts/informix_entry.sh", "/opt/hcl/scripts/informix_stop.sh"]
 CMD [""]
 

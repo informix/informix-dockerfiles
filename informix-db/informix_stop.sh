@@ -45,9 +45,9 @@ MSGLOG ">>> " N
 MSGLOG ">>> Execute init-shutdown scripts" N
 MSGLOG ">>> " N
 
-if [ -d $INFORMIX_DATA_DIR/informix-entrypoint-initdb.d ]
+if [ -d $INFORMIX_DATA_DIR/init.d ]
 then
-   filelist=`ls -x $INFORMIX_DATA_DIR/informix-entrypoint-initdb.d/K*`
+   filelist=`ls -x $INFORMIX_DATA_DIR/init.d/K*`
    for f in $filelist
    do
    MSGLOG ">>> Processing: $f" N

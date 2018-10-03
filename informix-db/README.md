@@ -3,10 +3,10 @@
 
 ## Instructions To Build Image
 
-1 - Put Informix product in ```informix-db``` directory and name it ifx.tar
+1 - Put Informix product in ```informix-db``` directory and name it informix.tar
 ```
 cd informix-db
-cp <informix product> iif.tar 
+cp <informix product> informix.tar 
 ```
 
 2 - Run the Build phase
@@ -29,7 +29,7 @@ RUN /bin/bash /opt/hcl/informix_install.sh
 RUN /bin/tar -C /opt/hcl -cvf /tmp/informix.prune.tar informix
 ```
 * The Dockerfile.prune will execute the informix_prune.sh script if specified to do so.  It is currently commented out.
-* To Execute this script during the build phase, remove the # comment and adjust the informix_prune.sh file as desired.
+* To Execute this script during the build phase, remove the # comment and adjust the informix_prune.sh file, removing the desired files from the installation directory. 
 
 
 ## Instructions To Run/Start Image
@@ -125,7 +125,5 @@ Data is stored in volume storage so it will persist but it is recommended you us
 ## License
 
 The Dockerfile and associated scripts are licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0). 
-
-
 
 

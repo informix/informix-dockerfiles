@@ -20,11 +20,11 @@ MSGLOG ">>>    Starting container/image ($dt) ..." N
 ###
 ###  Check LICENSE 
 ###
-# if (! isLicenseAccepted)  
-# then
-#    MSGLOG ">>>    License was not accepted Exiting! ..." N
-#    exit
-# fi
+if (! isLicenseAccepted)  
+then
+   MSGLOG ">>>    License was not accepted Exiting! ..." N
+   exit
+fi
 
 
 
@@ -80,16 +80,47 @@ MSGLOG "       [COMPLETED]" N
 ### 
 if (isNotInitialized)
 then
-   if (setupUserOnconfig)
+   MSGLOG ">>>    Create ONCONFIG file ..."  N
+   MSGLOG ">>>        [$INFORMIXDIR/etc/$ONCONFIG]" N  
+   . $SCRIPTS/informix_setup_onconfig.sh
+   MSGLOG "       [COMPLETED]" N 
+fi
+
+
+###
+### Setup sch_init_xxxxxxx.sql script 
+### 
+if (isNotInitialized)
+then
+   uSIZE=`echo $SIZE|tr /a-z/ /A-Z/`
+   uTYPE=`echo $TYPE|tr /a-z/ /A-Z/`
+   MSGLOG ">>>    Setting sch_init_informix.sql file ..."  N
+
+   if [[ $uSIZE == "SMALL" ]]
    then
-      MSGLOG ">>>    Using custom ONCONFIG file ..." N 
-      MSGLOG ">>>        [/home/informix/vol1/$DB_ONCONFIG]" N 
-      . $SCRIPTS/informix_setup_user_onconfig.sh
+    echo ">>>        Using Small sch_init_informix.sql"
+      cp $BASEDIR/sql/sch_init_informix.small.sql $INFORMIXDIR/etc/sysadmin/sch_init_informix.sql 
+   elif [[ $uSIZE == "MEDIUM" ]]
+   then
+    echo ">>>        Using Medium sch_init_informix.sql"
+      cp $BASEDIR/sql/sch_init_informix.medium.sql $INFORMIXDIR/etc/sysadmin/sch_init_informix.sql 
+   elif [[ $uSIZE == "LARGE" ]]
+   then
+    echo ">>>        Using Large sch_init_informix.sql"
+      cp $BASEDIR/sql/sch_init_informix.large.sql $INFORMIXDIR/etc/sysadmin/sch_init_informix.sql 
+   elif [[ $uSIZE == "CUSTOM" ]]
+   then
+    echo ">>>        Using custom sch_init_informix.sql"
+      cp $INFORMIX_DATA_DIR/sch_init_informix.custom.sql $INFORMIXDIR/etc/sysadmin/sch_init_informix.sql 
+   elif [[ -z ${uTYPE} ]]
+   then
+    echo ">>>        Using Small (Default) sch_init_informix.sql"
+      cp $BASEDIR/sql/sch_init_informix.small.sql $INFORMIXDIR/etc/sysadmin/sch_init_informix.sql 
    else
-      MSGLOG ">>>    Create ONCONFIG file ..."  N
-      MSGLOG ">>>        [$INFORMIXDIR/etc/$ONCONFIG]" N  
-      . $SCRIPTS/informix_setup_onconfig.sh
+    echo ">>>        Using Large (Default) sch_init_informix.sql"
+      cp $BASEDIR/sql/sch_init_informix.large.sql $INFORMIXDIR/etc/sysadmin/sch_init_informix.sql 
    fi
+
    MSGLOG "       [COMPLETED]" N 
 fi
 
@@ -164,7 +195,7 @@ MSGLOG "       [COMPLETED]" N
 
 
 ###
-### Execute the entrypoint_initdb scripts 
+### Execute the init.d scripts 
 ### 
 exec_S_initdb
 
@@ -222,9 +253,9 @@ function exec_S_initdb()
 {
 MSGLOG ">>>    Execute init-startup scripts" N
 
-if [ -d $INFORMIX_DATA_DIR/informix-entrypoint-initdb.d ]
+if [ -d $INFORMIX_DATA_DIR/init.d ]
 then
-   filelist=`ls -x $INFORMIX_DATA_DIR/informix-entrypoint-initdb.d/S*`
+   filelist=`ls -x $INFORMIX_DATA_DIR/init.d/S*`
    for f in $filelist
    do
    MSGLOG ">>>        File: $f" N
@@ -241,9 +272,9 @@ function exec_K_initdb()
 {
 MSGLOG ">>>    Execute init-shutdown scripts" N
 
-if [ -d $INFORMIX_DATA_DIR/informix-entrypoint-initdb.d ]
+if [ -d $INFORMIX_DATA_DIR/init.d ]
 then
-   filelist=`ls -x $INFORMIX_DATA_DIR/informix-entrypoint-initdb.d/K*`
+   filelist=`ls -x $INFORMIX_DATA_DIR/init.d/K*`
    for f in $filelist
    do
    MSGLOG ">>>        File: $f" N
@@ -283,19 +314,6 @@ else
 fi
 }
 
-
-###
-### setupUserOnconfig 
-###
-function setupUserOnconfig()
-{
-if [ $DB_ONCONFIG ];
-then
-   return $SUCCESS
-else
-   return $FAILURE 
-fi
-}
 
 
 ###
