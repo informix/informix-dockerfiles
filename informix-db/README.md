@@ -37,7 +37,7 @@ RUN /bin/tar -C /opt/hcl -cvf /tmp/informix.prune.tar informix
 1 - Starting the Informix Docker Image for the First time.
 
 ```
-     docker run --name ifx -p 9088:9088 -p 9089:9089 -p 27017:27017 \
+     docker run --name ifx -e LICENSE=accept -p 9088:9088 -p 9089:9089 -p 27017:27017 \
          -p 27018:27018 -p 27883:27883  informix-db
 ```
 
