@@ -81,7 +81,7 @@ docker exec -it ifx bash
 
 5 - Storage Options: 
 
-The docker image supports anonymous volumes, named volumes or bind mounts.  
+The docker image supports anonymous volumes, named volumes and bind mounts.  
 
 *  Default behavior is anonymous volume.  When you issue the docker run command it will create an anonymous volume which can be seen in a ```docker volume ls``` command. No -v option is used on the docker run command.
 * Named volumes can be used, use the -v option and follow these instructions:
