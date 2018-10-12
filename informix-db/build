@@ -1,5 +1,4 @@
 #!/bin/bash
-<<<<<<< HEAD
 
 [ $1 ] && TAG=$1 || TAG='informix-db'
 [ $2 ] && BUILD_DIR=$2 || BUILD_DIR='IFX_BLACKJACK'
@@ -12,32 +11,14 @@ cd $RUN_PATH
 [ `ls IFX_FILES |tail -1 ` ] && cp IFX_FILES/* .
 [ `ls CUSTOM|tail -1 ` ] && cp CUSTOM/* .
 
-=======
-TAG="informix-db"
-OSTAG="ifx-os"
-
-SCRIPTSRC=`readlink -f "$0" || echo "$0"`
-RUN_PATH=`dirname ${SCRIPTSRC} || echo .`
-cd $RUN_PATH
-cp CUSTOM/* . 
->>>>>>> 7cada20f0763977a80b75cdcdb8b58145b355cdd
 
 cnt=`docker images|grep ifx-os|wc -l`
 if [[ $cnt == "0" ]]
 then
-<<<<<<< HEAD
 echo "Building ifx-os"
 docker build -f Dockerfile.debian-os -t ifx-os . 
 fi
 
-=======
-echo "Building debian-os (ifx-os)"
-docker build -f Dockerfile.debian -t $OSTAG .
-
-fi
-
-
->>>>>>> 7cada20f0763977a80b75cdcdb8b58145b355cdd
 docker build -f Dockerfile.prune -t $TAG-prune .
 
 docker run --name temp-ifx-prune $TAG-prune /bin/true
@@ -47,12 +28,9 @@ docker rm temp-ifx-prune
 
 
 docker build -f Dockerfile.base -t $TAG .
-<<<<<<< HEAD
 
 rm informix_*
 rm sch_*.sql
 rm dinit*
 rm Dockerfile.*
 
-=======
->>>>>>> 7cada20f0763977a80b75cdcdb8b58145b355cdd
