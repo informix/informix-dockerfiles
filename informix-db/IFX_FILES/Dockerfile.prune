@@ -7,11 +7,7 @@ RUN mkdir -p /opt/hcl/informix
 RUN mkdir -p /opt/hcl/scripts
 RUN mkdir -p /opt/hcl/data
 
-<<<<<<< HEAD:informix-db/IFX_FILES/Dockerfile.prune
 ADD iif.tar             /opt/hcl/informix
-=======
-ADD informix.tar /opt/hcl/informix
->>>>>>> 7cada20f0763977a80b75cdcdb8b58145b355cdd:informix-db/Dockerfile.prune
 
 ADD informix_install.sh /opt/hcl/scripts
 ADD informix_prune.sh  /opt/hcl/scripts
@@ -24,13 +20,8 @@ ADD informix_install.properties /opt/hcl/informix_install.properties
 
 
 RUN cc /opt/hcl/dinit.c -o /opt/hcl/dinit
-<<<<<<< HEAD:informix-db/IFX_FILES/Dockerfile.prune
 RUN /bin/bash /opt/hcl/scripts/informix_install.sh
 RUN /bin/bash /opt/hcl/scripts/informix_prune.sh
-=======
-RUN /bin/bash /opt/hcl/informix_install.sh
-RUN /bin/bash /opt/hcl/informix_prune.sh
->>>>>>> 7cada20f0763977a80b75cdcdb8b58145b355cdd:informix-db/Dockerfile.prune
 RUN /bin/tar -C /opt/hcl -cvf /tmp/informix.prune.tar informix
 
 
