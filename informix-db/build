@@ -1,7 +1,6 @@
 #!/bin/bash
 
 [ $1 ] && TAG=$1 || TAG='informix-db'
-[ $2 ] && BUILD_DIR=$2 || BUILD_DIR='IFX_BLACKJACK'
 
 
 SCRIPTSRC=`readlink -f "$0" || echo "$0"`
