@@ -3,10 +3,10 @@
 
 ## Instructions To Build Image
 
-1 - Put Informix product in ```informix-db``` directory and name it ifx.tar
+1 - Put Informix product in ```informix-db``` directory and name it informix.tar
 ```
 cd informix-db
-cp <informix product> iif.tar 
+cp <informix product> informix.tar 
 ```
 
 2 - Run the Build phase
@@ -29,7 +29,7 @@ RUN /bin/bash /opt/hcl/informix_install.sh
 RUN /bin/tar -C /opt/hcl -cvf /tmp/informix.prune.tar informix
 ```
 * The Dockerfile.prune will execute the informix_prune.sh script if specified to do so.  It is currently commented out.
-* To Execute this script during the build phase, remove the # comment and adjust the informix_prune.sh file as desired.
+* To Execute this script during the build phase, remove the # comment and adjust the informix_prune.sh file, removing the desired files from the installation directory. 
 
 
 ## Instructions To Run/Start Image
@@ -37,7 +37,7 @@ RUN /bin/tar -C /opt/hcl -cvf /tmp/informix.prune.tar informix
 1 - Starting the Informix Docker Image for the First time.
 
 ```
-     docker run --name ifx -p 9088:9088 -p 9089:9089 -p 27017:27017 \
+     docker run --name ifx -e LICENSE=accept -p 9088:9088 -p 9089:9089 -p 27017:27017 \
          -p 27018:27018 -p 27883:27883  informix-db
 ```
 
@@ -127,7 +127,5 @@ This Github respository is designed around the Informix Dockerhub images.  For m
 ## License
 
 The Dockerfile and associated scripts are licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0). 
-
-
 
 

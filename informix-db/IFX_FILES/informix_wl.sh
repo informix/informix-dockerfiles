@@ -196,6 +196,7 @@ then
 	MSGLOG "${MONGO_PORT}, ${REST_PORT}, ${MQTT_PORT} Port is bound to some other service" N
 else
 
+<<<<<<< HEAD:informix-db/IFX_FILES/informix_wl.sh
 	# Starting listener types
    cmd="java -jar '${INFORMIXDIR}'/bin/jsonListener.jar  "
    if [[ $(($OPT & $PORT_REST)) == $(($PORT_REST)) ]]
@@ -213,6 +214,9 @@ else
    cmd+=" -logfile $WL_LOG" 
    cmd+=" -loglevel info -start &" 
 
+=======
+	# Starting all listener types
+>>>>>>> 7cada20f0763977a80b75cdcdb8b58145b355cdd:informix-db/informix_wl.sh
 	# java -jar "${INFORMIXDIR}"/bin/jsonListener.jar  \
 	# 	-config $REST_PROP \
 	# 	-config $MONGO_PROP \
@@ -222,7 +226,17 @@ else
 	# 	-start &
    MSGLOG ">>>    WL CMD: $cmd " N
 
+<<<<<<< HEAD:informix-db/IFX_FILES/informix_wl.sh
    eval $cmd 
+=======
+	java -jar "${INFORMIXDIR}"/bin/jsonListener.jar  \
+		-config $REST_PROP \
+		-logFile $WL_LOG \
+		-loglevel info \
+		-start &
+
+ 
+>>>>>>> 7cada20f0763977a80b75cdcdb8b58145b355cdd:informix-db/informix_wl.sh
 fi
 
 }

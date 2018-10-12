@@ -43,10 +43,16 @@ if (signal(SIGTERM, sig_handler) == SIG_ERR)
    printf("Can't catch SIGTERM\n");
 if (signal(SIGKILL, sig_handler) == SIG_ERR)
    printf("Can't catch SIGKILL\n");
+<<<<<<< HEAD:informix-db/IFX_FILES/dinit.c
 
 sprintf(cmd, "%s %s", garg1, garg2);
 system(cmd);
 
+=======
+
+system(garg1);
+
+>>>>>>> 7cada20f0763977a80b75cdcdb8b58145b355cdd:informix-db/dinit.c
 while (1)
 {
    sleep(10);

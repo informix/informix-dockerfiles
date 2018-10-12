@@ -97,7 +97,11 @@ if (isNotInitialized)
 then
    MSGLOG ">>>    Create ONCONFIG file ..."  N
    MSGLOG ">>>        [$INFORMIXDIR/etc/$ONCONFIG]" N  
+<<<<<<< HEAD:informix-db/IFX_FILES/informix_entry.sh
    . $SCRIPTS/informix_setup_onconfig.sh $OPT
+=======
+   . $SCRIPTS/informix_setup_onconfig.sh
+>>>>>>> 7cada20f0763977a80b75cdcdb8b58145b355cdd:informix-db/informix_entry.sh
    MSGLOG "       [COMPLETED]" N 
 fi
 

@@ -13,7 +13,10 @@ RUN mkdir -p /opt/hcl                                      && \
 ADD    informix_calculate_onconfig.sh    /opt/hcl/scripts   
 ADD    informix_entry.sh                 /opt/hcl/scripts     
 ADD    informix_inf.env                  /opt/hcl/scripts     
+<<<<<<< HEAD:informix-db/IFX_FILES/Dockerfile.base
 ADD    informix_inf.env                  /usr/local/bin     
+=======
+>>>>>>> 7cada20f0763977a80b75cdcdb8b58145b355cdd:informix-db/Dockerfile.base
 ADD    informix_init.sh                  /opt/hcl/scripts  
 ADD    informix_online.sh                /opt/hcl/scripts  
 
@@ -65,6 +68,7 @@ STOPSIGNAL SIGTERM
 
 EXPOSE 9088 9089 27017 27018 27883
 
+<<<<<<< HEAD:informix-db/IFX_FILES/Dockerfile.base
 ###  ENTRYPOINT:
 ###     arg1:  Name of the C program used to manage the starting/stopping
 ###     arg2:  Start script to run
@@ -82,6 +86,10 @@ EXPOSE 9088 9089 27017 27018 27883
 
 ENTRYPOINT ["/opt/hcl/dinit", "/opt/hcl/scripts/informix_entry.sh", "0x73", "/opt/hcl/scripts/informix_stop.sh"]
 CMD [""]
+=======
+#ENTRYPOINT ["/opt/hcl/scripts/informix_entry.sh"]
+ENTRYPOINT ["/opt/hcl/dinit", "/opt/hcl/scripts/informix_entry.sh", "/opt/hcl/scripts/informix_stop.sh"]
+>>>>>>> 7cada20f0763977a80b75cdcdb8b58145b355cdd:informix-db/Dockerfile.base
 
 
 
