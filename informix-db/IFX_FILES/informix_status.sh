@@ -5,7 +5,7 @@
 #  Called by:   HEALTHCHECK (docker) 
 
 
-. /opt/hcl/scripts/informix_inf.env
+. /usr/local/bin/informix_inf.env
 onstat -
 rc=$?
 

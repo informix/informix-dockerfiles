@@ -1,4 +1,4 @@
-FROM debian-os 
+FROM ifx-os 
 
 RUN apt-get install -y gcc
 
@@ -7,17 +7,21 @@ RUN mkdir -p /opt/hcl/informix
 RUN mkdir -p /opt/hcl/scripts
 RUN mkdir -p /opt/hcl/data
 
-ADD iif.tar /opt/hcl/informix
+ADD iif.tar             /opt/hcl/informix
 
-ADD informix_install.sh /opt/hcl/
-ADD informix_prune.sh  /opt/hcl/
-ADD informix_inf.env   /opt/hcl/
+ADD informix_install.sh /opt/hcl/scripts
+ADD informix_prune.sh  /opt/hcl/scripts
+ADD informix_inf.env   /opt/hcl/scripts
+ADD informix_inf.env   /usr/local/bin
 ADD dinit.c            /opt/hcl/
 
 
 ADD informix_install.properties /opt/hcl/informix_install.properties
 
+
 RUN cc /opt/hcl/dinit.c -o /opt/hcl/dinit
-RUN /bin/bash /opt/hcl/informix_install.sh
-#RUN /bin/bash /opt/hcl/informix_prune.sh
+RUN /bin/bash /opt/hcl/scripts/informix_install.sh
+RUN /bin/bash /opt/hcl/scripts/informix_prune.sh
 RUN /bin/tar -C /opt/hcl -cvf /tmp/informix.prune.tar informix
+
+

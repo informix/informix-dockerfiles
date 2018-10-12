@@ -1,13 +1,36 @@
-docker build -f Dockerfile.debian-os -t debian-os . 
-docker build -f Dockerfile.prune -t ifx-prune .
+#!/bin/bash
 
-docker run --name temp-ifx-prune ifx-prune /bin/true
+[ $1 ] && TAG=$1 || TAG='informix-db'
+[ $2 ] && BUILD_DIR=$2 || BUILD_DIR='IFX_BLACKJACK'
+
+
+SCRIPTSRC=`readlink -f "$0" || echo "$0"`
+RUN_PATH=`dirname ${SCRIPTSRC} || echo .`
+cd $RUN_PATH
+
+[ `ls IFX_FILES |tail -1 ` ] && cp IFX_FILES/* .
+[ `ls CUSTOM|tail -1 ` ] && cp CUSTOM/* .
+
+
+cnt=`docker images|grep ifx-os|wc -l`
+if [[ $cnt == "0" ]]
+then
+echo "Building ifx-os"
+docker build -f Dockerfile.debian-os -t ifx-os . 
+fi
+
+docker build -f Dockerfile.prune -t $TAG-prune .
+
+docker run --name temp-ifx-prune $TAG-prune /bin/true
 docker cp temp-ifx-prune:/tmp/informix.prune.tar .
 docker cp temp-ifx-prune:/opt/hcl/dinit .
 docker rm temp-ifx-prune
 
 
-
-[ $1 ] && TAG=$1 || TAG='informix-db'
 docker build -f Dockerfile.base -t $TAG .
+
+rm informix_*
+rm sch_*.sql
+rm dinit*
+rm Dockerfile.*
 

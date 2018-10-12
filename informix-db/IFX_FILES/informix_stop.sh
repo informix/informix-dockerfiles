@@ -9,7 +9,7 @@ main()
 ###
 ###  Setup environment
 ###
-. /opt/hcl/scripts/informix_inf.env
+. /usr/local/bin/informix_inf.env
 
 #MSGLOG ">>>    Stopping the IBM Informix Database (${INFORMIXSERVER}) ... " N
 #cp $INFORMIXDIR/etc/$ONCONFIG $INFORMIX_DATA_DIR/tmp
@@ -45,9 +45,9 @@ MSGLOG ">>> " N
 MSGLOG ">>> Execute init-shutdown scripts" N
 MSGLOG ">>> " N
 
-if [ -d $INFORMIX_DATA_DIR/informix-entrypoint-initdb.d ]
+if [ -d $INFORMIX_DATA_DIR/init.d ]
 then
-   filelist=`ls -x $INFORMIX_DATA_DIR/informix-entrypoint-initdb.d/K*`
+   filelist=`ls -x $INFORMIX_DATA_DIR/init.d/K*`
    for f in $filelist
    do
    MSGLOG ">>> Processing: $f" N

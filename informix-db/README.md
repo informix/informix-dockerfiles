@@ -14,8 +14,8 @@ cp <informix product> iif.tar
 . ./build
 ```
 
-* This will build a ```debian-os``` image as a base os image.
-* It will then use the debian-os image and build an ```ifx-prune``` image.  The ifx-prune image is used to prune the Informix installation directory if wanted.
+* This will build a ```ifx-os``` image as a base os image.
+* It will then use the ifx-os image and build an ```ifx-prune``` image.  The ifx-prune image is used to prune the Informix installation directory if wanted.
 * It will then use the ifx-prune image and build the final Informix image ```informix-db```
 
 3 - (Optional)  Prune Informix Directory
@@ -119,7 +119,9 @@ Use The Bind mount:
 
 Data is stored in volume storage so it will persist but it is recommended you use Named volumes or Bind mounts.  If you use anonymous volumes the data location is not known.  But if you use named volumes or bind mounts the data volume location is ___well known___.
 
+8 - More Information (How to Run)
 
+This Github respository is designed around the Informix Dockerhub images.  For more information on how to run the docker image created by this github repository see the DockerHub [Readme](https://hub.docker.com/r/ibmcom/informix-developer-database/). 
 
 
 ## License

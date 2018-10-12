@@ -1,4 +1,6 @@
-HOME_DIR=/opt/hcl/informix
+. /usr/local/bin/informix_inf.env
+
+HOME_DIR=$BASEDIR/informix
 
 DIRS="
 jdbc

@@ -4,25 +4,54 @@
 #  description: Starts WL in Docker container
 #
 
+OPT=$1
+
+# PORT_SQLEXEC=0x0001
+#    PORT_DRDA=0x0002
+#   PORT_MONGO=0x0010
+#    PORT_REST=0x0020
+#    PORT_MQTT=0x0040
 
 main()
 {
 ###
 ###  Setup environment
 ###
-. /opt/hcl/scripts/informix_inf.env
+. /usr/local/bin/informix_inf.env
 
 dt=`date`
-MSGLOG ">>>    Starting WL ($dt) ..." N
+MSGLOG ">>>    Starting WL ($dt) ... $OPT" N
 
-#setupMongoProp
-setupRestProp
-#setupMqttProp
+if [[ $(($OPT & $PORT_MONGO)) == $(($PORT_MONGO)) ]]
+then
+   setupMongoProp
+fi
+if [[ $(($OPT & $PORT_REST)) == $(($PORT_REST)) ]]
+then
+   setupRestProp
+fi
+if [[ $(($OPT & $PORT_MQTT)) == $(($PORT_MQTT)) ]]
+then
+   setupMqttProp
+fi
 
-startWL
-#checkMongoRunning
-checkRestRunning
-#checkMqttRunning
+startWL $OPT
+
+
+if [[ $(($OPT & $PORT_MONGO)) == $(($PORT_MONGO)) ]]
+then
+   checkMongoRunning
+fi
+if [[ $(($OPT & $PORT_REST)) == $(($PORT_REST)) ]]
+then
+   checkRestRunning
+fi
+if [[ $(($OPT & $PORT_MQTT)) == $(($PORT_MQTT)) ]]
+then
+   checkMqttRunning
+fi
+
+
 
 MSGLOG ">>>    [COMPLETED]" N
 
@@ -167,24 +196,33 @@ then
 	MSGLOG "${MONGO_PORT}, ${REST_PORT}, ${MQTT_PORT} Port is bound to some other service" N
 else
 
-	# Starting all listener types
-	java -jar "${INFORMIXDIR}"/bin/jsonListener.jar  \
-		-config $REST_PROP \
-		-config $MONGO_PROP \
-		-config $MQTT_PROP \
-		-logFile $WL_LOG \
-		-loglevel info \
-		-start &
+	# Starting listener types
+   cmd="java -jar '${INFORMIXDIR}'/bin/jsonListener.jar  "
+   if [[ $(($OPT & $PORT_REST)) == $(($PORT_REST)) ]]
+   then
+      cmd+=" -config $REST_PROP " 
+   fi
+   if [[ $(($OPT & $PORT_MONGO)) == $(($PORT_MONGO)) ]]
+   then
+      cmd+=" -config $MONGO_PROP " 
+   fi
+   if [[ $(($OPT & $PORT_MQTT)) == $(($PORT_MQTT)) ]]
+   then
+      cmd+=" -config $MQTT_PROP" 
+   fi
+   cmd+=" -logfile $WL_LOG" 
+   cmd+=" -loglevel info -start &" 
 
-
-	# Starting Just REST 
 	# java -jar "${INFORMIXDIR}"/bin/jsonListener.jar  \
 	# 	-config $REST_PROP \
+	# 	-config $MONGO_PROP \
+	# 	-config $MQTT_PROP \
 	# 	-logFile $WL_LOG \
 	# 	-loglevel info \
 	# 	-start &
+   MSGLOG ">>>    WL CMD: $cmd " N
 
- 
+   eval $cmd 
 fi
 
 }
