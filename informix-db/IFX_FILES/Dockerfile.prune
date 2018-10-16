@@ -1,5 +1,6 @@
 FROM ifx-os 
 
+RUN apt-get install -y gcc
 
 RUN mkdir -p /opt/hcl
 RUN mkdir -p /opt/hcl/informix
